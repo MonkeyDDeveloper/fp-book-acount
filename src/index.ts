@@ -14,7 +14,7 @@ import {loggedRouter} from  './routers/loggedRouter';
 import {initializePassport} from './passpor_config/passport_config';
 import passport from 'passport';
 const viewsPath = PROD ? path.join(__dirname, '..', '..', 'public', 'views') : path.join(__dirname, '..', 'public', 'views')
-const staticPath = path.join(__dirname, 'public')
+const staticPath = PROD ? path.join(__dirname, '..', '..', 'public') : path.join(__dirname, '..', 'public')
 const app = express();
 const users:IUser[] = [{name: 'Javier', id: '1234', email: 'q@q', password: '$2a$10$StGFGixonV1y0DEO0m7f.u6gHOU1K/yXgrfWJrbpPuB5UlFEPL4rK'}];
 const usersBooks:UsersBooks = [["1234", [{id: Date.now().toString(), author: 'juan javier', description: 'descripcion', releaseDate: '2000-02-18', title: 'mi libro'}]]]
