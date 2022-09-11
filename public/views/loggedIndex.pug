@@ -1,0 +1,98 @@
+doctype html
+head
+  meta(charset='utf-8')
+  meta(name='viewport' content='width=device-width, initial-scale=1')
+  title=title
+  link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/sketchy/bootstrap.min.css", integrity="sha384-RxqHG2ilm4r6aFRpGmBbGTjsqwfqHOKy1ArsMhHusnRO47jcGqpIQqlQK/kmGy9R", crossorigin="anonymous")
+  link(rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" integrity="sha512-5A8nwdMOWrSz20fDsjczgUidUBR8liPYU+WymTZP1lmY9G6Oc7HlZv156XqnsgNUzTyMefFTcsFH/tnJE/+xBg==" crossorigin="anonymous" referrerpolicy="no-referrer")
+  style.
+    .new-book-button:hover {
+        transition: background-color .3s ease;
+    }
+    .new-book-button:hover {
+        cursor: pointer;
+        background-color: #343a40;
+    }
+    .new-book-button h5 {
+        transition: color .3s ease, transform .3s ease;
+    }
+    .new-book-button:hover h5 {
+        color: white;
+        transform: scale(1.2)
+    }
+    .edit-button, 
+    .delete-button {
+        height: 100%;
+    }
+    .edit-button i, 
+    .delete-button i {
+        font-size: 1.5rem;
+        transition: transform .1s ease, font-size .1s ease;
+    }
+    .edit-button:hover, 
+    .delete-button:hover {
+        cursor: pointer;
+    }
+    .edit-button:hover i, 
+    .delete-button:hover i {
+        cursor: pointer;
+        font-size: 1.12rem;
+        /* transform: scale(1.1); */
+    }
+body.p-4
+    .col-12.d-flex.justify-content-end
+        form.col-4.col-md-2(action="/logged/logout?_method=DELETE", method="post")
+            .form-group
+                button.btn.btn-primary.form-control(type="submit") Logout
+    .col-12.col-md-8.m-auto
+        h1 Your account
+        - if(message)
+            h4.text-success=message
+    .row.row-cols-1.row-cols-md-3.row-cols-lg-4
+        .col.my-3
+            #new-book.new-book-button.card
+                .card-body.bg-primay.text-center
+                    h5 Add a new book
+        - if(userBooks.length > 0)
+            each userBook in userBooks[0][1]
+                .col.my-3
+                    .card
+                        .card-header
+                            h3=`${userBook.title} | ${userBook.author}`
+                        .card-body
+                            h4=userBook.description
+                        .card-footer
+                            .row.row-cols-1.row-cols-md-1.row-cols-lg-1.row-cols-xl-2.justify-content-between.align-items-baseline
+                                .col
+                                    h4.text-sm-center.text-md-center=userBook.releaseDate
+                                .col.bg-dark.rounded
+                                    .row
+                                        .col.edit-button.p-1.text-center.border-right(data-bookid=`${userBook.id}` data-toggle="tooltip" data-placement="bottom" title="Edit")
+                                            i.fa.fa-lg.fa-pencil-square-o.text-success(data-bookid=`${userBook.id}`)
+                                        .col.delete-button.p-1.text-center.border-left(data-bookid=`${userBook.id}` data-toggle="tooltip" data-placement="bottom" title="Delete")
+                                            i.fa.fa-lg.fa-trash.text-danger(data-bookid=`${userBook.id}`)
+    script(src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous")
+    script(src="https://cdn.jsdelivr.net/npm/popper.js@1.14.6/dist/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous")
+    script(src="https://cdn.jsdelivr.net/npm/bootstrap@4.2.1/dist/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous")
+    script.
+        ( () => {
+            $('.edit-button').tooltip({ boundary: 'window' })
+            $('.delete-button').tooltip({ boundary: 'window' })
+            $('.edit-button').click( e => {
+                const bookId = e.target.dataset.bookid
+                bookId != undefined ? window.location.href = `/logged/edit-book/${bookId}` : {}
+            })
+            $('.delete-button').click( e => {
+                const bookId = e.target.dataset.bookid
+                fetch(`/logged/delete-book/${bookId}`, {
+                    method:'delete'
+                }).then( res => {
+                    if(res.status == 200) {
+                        window.location.reload()
+                    }
+                })
+            })
+            $('#new-book').click(e => {
+                window.location.href = '/logged/add-book'
+            })
+        }) ()

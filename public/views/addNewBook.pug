@@ -1,0 +1,25 @@
+doctype html
+head
+  meta(charset='utf-8')
+  meta(name='viewport' content='width=device-width, initial-scale=1')
+  title=title
+  link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/sketchy/bootstrap.min.css", integrity="sha384-RxqHG2ilm4r6aFRpGmBbGTjsqwfqHOKy1ArsMhHusnRO47jcGqpIQqlQK/kmGy9R", crossorigin="anonymous")
+body.p-4
+    .col-12.col-md-4.m-auto
+        h1 Add a new book
+        form(action="/logged/add-book", method="post")
+            .form-group
+                label Title
+                input.form-control(type="text", name="title" autofocus required)
+            .form-group
+                label Author
+                input.form-control(type="text", name="author" required)
+            .form-group
+                label Description
+                textarea.form-control(name="description" required)
+            .form-group
+                label Release date
+                input.form-control(type="date", name="releaseDate" required)
+            .form-group
+                button.btn.btn-primary.form-control(type="submit") Guardar nuevo libro
+    script(src='https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js' integrity='sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa' crossorigin='anonymous')
