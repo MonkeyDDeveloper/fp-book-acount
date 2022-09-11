@@ -8,7 +8,6 @@ import path from 'path';
 import session from 'express-session';
 import flash from 'express-flash';
 import override from 'method-override';
-import morgan from 'morgan';
 import {UsersBooks, IUser, IFindUser} from './types/myTypes';
 import {indexRouter} from  './routers/indexRouter';
 import {loggedRouter} from  './routers/loggedRouter';
@@ -32,7 +31,7 @@ app.set('views', viewsPath)
 app.set('port', process.env.PORT || 3000)
 //Middlewares
 app.use(override('_method'))
-PROD ? {} : app.use(morgan('dev'))
+PROD ? {} : app.use(require('morgan')('dev'))
 app.use(express.json())
 app.use(express.urlencoded({extended:false}))
 app.use(session({
