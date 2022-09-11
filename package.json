@@ -6,7 +6,7 @@
   "scripts": {
     "build": "tsc",
     "dev": "ts-node-dev --files src/index.ts",
-    "start": "set ENV=prod&&set SECRET=mysecret&& node build/src/index.js"
+    "start": "node build/src/index.js"
   },
   "keywords": [],
   "author": "",
